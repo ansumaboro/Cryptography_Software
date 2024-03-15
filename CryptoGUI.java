@@ -1,10 +1,7 @@
-package cns;
-
 import java.awt.CardLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,7 +9,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 public class CryptoGUI {
     
@@ -27,34 +23,19 @@ public class CryptoGUI {
 }
 
 class Window extends JFrame {
-    
-//    JButton encryption  = new JButton("Encryption");
-//    JButton decryption = new JButton("Decryption");
-//    ContainerPanel containerPanel = new ContainerPanel();
+
+    // creating two seperate interfaces for encryption and decryption
     EncryptionPanel encryptionPanel = new EncryptionPanel(this);
     DecryptionPanel decryptionPanel = new DecryptionPanel(this);
     CardLayout cardLayout;
     
     Window(){
-        
         setVisible(true);
         setSize(400, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         cardLayout = new CardLayout();
         setLayout(cardLayout);
-        
-        ImageIcon icon = new ImageIcon("D:\\NetBeans Projects\\CNS\\image\\logo.png");
-        setIconImage(icon.getImage());
-        
-//        add(encryption);
-//        encryption.setBounds(68, 6, 100, 23);
-//        
-//        add(decryption);
-//        decryption.setBounds(213, 6, 100, 23);
-        
-//        add(containerPanel);
-//        containerPanel.setBounds(10, 40, 380, 280);
         
         add(encryptionPanel,"encryptionPanel");
         add(decryptionPanel,"decryptionPanel");
@@ -65,37 +46,13 @@ class Window extends JFrame {
     public void switchToPanel(String panelName) {
         cardLayout.show(this.getContentPane(), panelName);
     }
-    
-//    encryption.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                containerPanel.switchToPanel("encryptionPanel");
-//            }
-//        });
-//}
-
-//class ContainerPanel extends JPanel {
-//
-//    static CardLayout cardLayout;
-//    EncryptionPanel encryptionPanel = new EncryptionPanel();
-//    DecryptionPanel decryptionPanel = new DecryptionPanel();
-//    
-//    public ContainerPanel() {
-//        cardLayout = new CardLayout();
-//        setLayout(cardLayout);
-//        
-//        add(encryptionPanel,"encryptionPanel");
-//        add(decryptionPanel,"decryptionPanel");
-//    }
-//    
-//    public void switchToPanel(String panelName) {
-//        cardLayout.show(ContainerPanel.this, panelName);
-//    }
 }
 
 class EncryptionPanel extends JPanel {
-    EncryptionPanel(Window window){
-        
+
+    EncryptionPanel(Window window){    
         setPreferredSize(new java.awt.Dimension(300, 200));
+        setLayout(null);
         
         JButton encryption  = new JButton("Encryption");
         JButton decryption = new JButton("Decryption");
@@ -109,14 +66,20 @@ class EncryptionPanel extends JPanel {
         JLabel l3 = new JLabel("Key");
         JTextField key = new JTextField();
         
-        setLayout(null);
-        
+        // buttons for switching to both interfaces
         add(encryption);
         encryption.setBounds(68, 6, 100, 23);
-        
         add(decryption);
         decryption.setBounds(213, 6, 100, 23);
         
+        decryption.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                window.switchToPanel("decryptionPanel");
+            }
+        });
+        
+        // conponents of encryption interface for inputing texts
         l1.setBackground(new java.awt.Color(255, 255, 255));
         add(l1);
         l1.setBounds(30, 40, 160, 16);
@@ -152,20 +115,7 @@ class EncryptionPanel extends JPanel {
         add(l2);
         l2.setBounds(30, 190, 90, 16);
         
-        encryption.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.switchToPanel("encryptionPanel");
-            }
-        });
-        
-        decryption.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.switchToPanel("decryptionPanel");
-            }
-        });
-        
+        // logic for converting plain-text into cipher-text when clicked on encrypt button
         encrypt.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -193,9 +143,10 @@ class EncryptionPanel extends JPanel {
 }
 
 class DecryptionPanel extends JPanel {
-    DecryptionPanel(Window window){
-        
+
+    DecryptionPanel(Window window){    
         setPreferredSize(new java.awt.Dimension(300, 200));
+        setLayout(null);
         
         JButton encryption  = new JButton("Encryption");
         JButton decryption = new JButton("Decryption");
@@ -209,14 +160,20 @@ class DecryptionPanel extends JPanel {
         JLabel l3 = new JLabel("Key");
         JTextField key = new JTextField();
         
-        setLayout(null);
-        
+        // buttons for switching to both interfaces
         add(encryption);
         encryption.setBounds(68, 6, 100, 23);
-        
         add(decryption);
         decryption.setBounds(213, 6, 100, 23);
         
+        encryption.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                window.switchToPanel("encryptionPanel");
+            }
+        });
+        
+        // conponents of encryption interface for inputing texts
         l1.setBackground(new java.awt.Color(255, 255, 255));
         add(l1);
         l1.setBounds(30, 40, 160, 16);
@@ -252,20 +209,8 @@ class DecryptionPanel extends JPanel {
         add(l2);
         l2.setBounds(30, 190, 90, 16);
         
-        encryption.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.switchToPanel("encryptionPanel");
-            }
-        });
         
-        decryption.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                window.switchToPanel("decryptionPanel");
-            }
-        });
-        
+        // logic for converting cipher-text into plain-text when clicked on decrypt button
         decrypt.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
